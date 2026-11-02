@@ -1,0 +1,429 @@
+# What counts as a relevant posting. Derived from Rahul's experience bank
+# (ML inference/performance at AMD, C++/Python/Java, vLLM, PyTorch/TensorFlow,
+# CI/benchmark infra, RAG/agents, DASH Lab cluster ops).
+#
+# Phrase syntax: case-insensitive, matched on word boundaries.
+# A trailing "*" makes it a prefix match ("data scien*" matches "data science").
+
+# Titles from ATS boards and levels.fyi must contain one of these.
+# Simplify listings are all internships already, so this gate is skipped there.
+intern_markers:
+  - intern
+  - interns
+  - internship
+  - co-op
+  - coop
+  - co op
+  - student researcher
+  - student engineer
+  - summer student
+  - summer analyst
+  - university program
+
+# Postings are kept when any term mentions one of these years, or has no term.
+accepted_years: [2027, 2028]
+# Postings whose only terms or title year are these are dropped.
+rejected_years: [2025, 2026]
+# Postings with no term are kept if posted within this many days.
+undated_max_age_days: 45
+
+# Titles containing any of these are dropped.
+negative_titles:
+  - product design*
+  - product designer
+  - ux
+  - ui/ux
+  - user experience
+  - graphic design*
+  - visual design*
+  - industrial design*
+  - marketing
+  - sales
+  - account executive
+  - account manag*
+  - business development
+  - business analyst
+  - business operations
+  - strategy
+  - finance
+  - financial analyst
+  - accounting
+  - accountant
+  - audit*
+  - tax
+  - treasury
+  - human resources
+  - hr
+  - people operations
+  - recruit*
+  - talent acquisition
+  - legal
+  - paralegal
+  - attorney
+  - supply chain
+  - procurement
+  - sourcing
+  - logistics
+  - mechanical
+  - civil
+  - chemical
+  - chemist*
+  - manufacturing
+  - process engineer*
+  - quality engineer*
+  - electrical engineer*
+  - electrical engineering
+  - hardware engineer*
+  - analog
+  - rf
+  - mixed signal
+  - mixed-signal
+  - asic
+  - fpga
+  - physical design
+  - design verification
+  - layout
+  - packaging
+  - optical
+  - optics
+  - photonics
+  - materials
+  - biology
+  - biomedical
+  - clinical
+  - nurs*
+  - pharma*
+  - construction
+  - facilities
+  - customer success
+  - customer support
+  - communications
+  - public relations
+  - content
+  - copywrit*
+  - writer
+  - editorial
+  - video production
+  - event*
+  - product manag*
+  - project manag*
+  - program manag*
+  - operations intern
+  - investment banking
+  - private equity
+  - wealth management
+  - actuar*
+  - underwrit*
+  - mba
+  - field engineer*
+  - design management
+  - human performance
+  - infrastructure management
+  - power systems
+  - energy engineering
+
+# Phrases ending in "+" only count when the title also has one of these,
+# so "Business Performance Analyst" doesn't land in Tier A.
+tech_context:
+  - software
+  - engineer*
+  - engineering
+  - developer
+  - ml
+  - ai
+  - machine learning
+  - data
+  - systems
+  - computing
+  - compute
+  - platform
+  - backend
+  - gpu
+  - cpu
+  - efficiency
+  - modeling
+  - cloud
+  - llm
+  - model*
+  - technology
+
+# Simplify listings whose title hits no tier still count as Tier C in these categories.
+fallback_categories: [Software, Software Engineering, AI/ML/Data, "Data Science, AI & Machine Learning"]
+
+# Tier A: core fit with ML systems, inference, performance and infra work.
+tier_a:
+  - ml systems
+  - machine learning systems
+  - ai systems
+  - ml infrastructure
+  - ml infra
+  - machine learning infrastructure
+  - ai infrastructure
+  - ai infra
+  - ai/ml infrastructure
+  - ml platform
+  - machine learning platform
+  - ai platform
+  - inference
+  - model serving
+  - llm serving
+  - serving+
+  - model optimization
+  - model efficiency
+  - efficient ai
+  - model compression
+  - quantization
+  - llm*
+  - large language model*
+  - genai
+  - gen ai
+  - generative ai
+  - foundation model*
+  - performance engineer*
+  - performance analysis
+  - performance analyst
+  - performance modeling
+  - performance architect*
+  - performance optimization
+  - software performance
+  - performance+
+  - benchmark*+
+  - hpc
+  - high performance computing
+  - high-performance computing
+  - scientific computing
+  - systems software
+  - system software
+  - compute efficiency
+  - machine learning engineer*
+  - ml engineer*
+  - mle
+  - ai engineer*
+  - ai/ml engineer*
+  - ml/ai engineer*
+  - ai & ml engineer*
+  - ai software
+  - ai/ml software
+  - machine learning software
+  - deep learning software
+  - deep learning
+  - applied ai
+  - applied machine learning
+  - applied ml
+  - ai agent*
+  - agentic
+  - agents+
+  - mlops
+  - ml ops
+  - llmops
+  - infrastructure engineer*
+  - infrastructure software
+  - infrastructure+
+  - platform engineer*
+  - platform software
+  - cloud infrastructure
+  - developer productivity
+  - developer infrastructure
+  - developer experience
+  - engineering productivity
+  - build engineer*
+  - release engineer*
+  - build and release
+  - build & release
+  - ci/cd
+  - production engineer*
+
+# Tier B: good fit, general software and ML roles.
+tier_b:
+  - software engineer*
+  - software
+  - software development
+  - software developer
+  - software dev
+  - sde
+  - swe
+  - backend
+  - back-end
+  - back end
+  - full stack
+  - full-stack
+  - fullstack
+  - server
+  - distributed
+  - c++
+  - python
+  - java
+  - cloud
+  - devops
+  - dev ops
+  - site reliability
+  - sre
+  - reliability engineer*
+  - data engineer*
+  - data platform
+  - database*
+  - forward deployed
+  - solutions architect
+  - data infrastructure
+  - big data
+  - research engineer*
+  - research software
+  - applied scientist
+  - applied science
+  - research scientist
+  - ml research*
+  - machine learning research*
+  - ai research*
+  - ai/ml research*
+  - machine learning
+  - ml
+  - ai
+  - ai/ml
+  - ml/ai
+  - artificial intelligence
+  - data scien*
+  - nlp
+  - natural language
+  - speech
+  - conversational ai
+  - recommendation*
+  - recommender
+  - personalization
+  - search
+  - ranking
+  - computer vision
+  - vision
+  - multimodal
+  - tools engineer*
+  - tooling
+  - developer tools
+  - internal tools
+  - programmer
+  - application developer
+  - applications engineer*
+  - solutions engineer*
+  - technology intern
+  - technical intern
+  - computer science
+  - cs intern
+  - web developer
+  - frontend
+  - front-end
+  - front end
+  - ios
+  - mobile
+
+# Tier C: stretch roles that need skills he is still building (GPU, compilers)
+# or adjacent domains. Batched into one summary push instead of one per job.
+tier_c:
+  - gpu
+  - cuda
+  - compiler*
+  - kernel*
+  - co-design
+  - hardware/software
+  - hardware-software
+  - hw/sw
+  - firmware
+  - embedded
+  - silicon
+  - computer architecture
+  - cpu
+  - architecture
+  - quant*
+  - trading
+  - robotics
+  - autonomy
+  - autonomous
+  - simulation
+  - graphics
+  - security engineer*
+  - security
+  - cyber*
+  - sdet
+  - test automation
+  - automation engineer*
+  - automation
+  - software test*
+  - qa
+  - quality assurance
+  - systems engineer*
+  - analytics engineer*
+  - data analy*
+  - data
+  - engineering intern
+  - engineer
+  - developer
+  - technology
+
+# Each hit in the job description adds `weight` points (capped by keyword_cap).
+keyword_cap: 25
+keywords:
+  vllm: 6
+  pytorch: 4
+  tensorflow: 4
+  onnx*: 4
+  c++: 3
+  python: 2
+  java: 2
+  numa: 5
+  openmp: 5
+  cpu: 2
+  x86: 3
+  avx*: 3
+  simd: 3
+  profiling: 4
+  profiler*: 3
+  operator fusion: 5
+  kernel fusion: 4
+  fusion: 2
+  quantiz*: 4
+  int8: 4
+  inference: 4
+  llm serving: 5
+  model serving: 4
+  benchmark*: 4
+  latency: 2
+  throughput: 2
+  rag: 3
+  retrieval-augmented: 3
+  langgraph: 3
+  langchain: 2
+  mcp: 3
+  model context protocol: 3
+  agents: 2
+  agentic: 2
+  flask: 2
+  postgresql: 2
+  postgres: 2
+  docker: 2
+  podman: 3
+  jenkins: 3
+  ci/cd: 2
+  slurm: 4
+  ansible: 2
+  linux: 2
+  hugging face: 2
+  transformers: 2
+  recommendation*: 2
+  embedding*: 2
+  multithread*: 2
+  parallel: 2
+  hpc: 3
+  performance: 2
+
+# Score bonuses and penalties. Final score is clamped to 0..100.
+tier_base: {A: 70, B: 50, C: 30}
+bonus:
+  target_term: 5          # Summer or Fall 2027 term
+  coop: 5                 # co-op in title or term
+  masters_listed: 3       # Master's is in the degree list
+  ai_ml_category: 3       # Simplify category is AI/ML/Data
+penalty:
+  citizenship: 40         # U.S. citizenship or clearance required
+  no_sponsorship: 3
+  bachelors_only: 5
+target_terms: [summer 2027, fall 2027]
+
+# Tiers that get one push per posting. Others are batched per run.
+push_individually: [A, B]

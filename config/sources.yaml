@@ -1,0 +1,51 @@
+# Where to look. Edit freely; the poller reloads this every run.
+
+simplify:
+  # Bump when Simplify opens the next season's repo.
+  repos: [SimplifyJobs/Summer2027-Internships]
+  branch: dev
+  pending_issue_label: new_internship
+
+levels:
+  location_slug: united-states
+  posted_within_days: 3          # 14 on bootstrap
+  max_pages: 2
+  queries:
+    - software engineer
+    - machine learning engineer
+    - ai engineer
+    - ml infrastructure
+    - inference
+    - performance engineer
+    - infrastructure engineer
+    - systems software
+    - data engineer
+    - research engineer
+    - devops
+    - co-op
+
+ats:
+  # Every board is polled once per `rotation` runs (runs are ~10 min apart).
+  rotation: 3
+  # Boards are discovered from Simplify posting URLs; add more here.
+  # Format: {greenhouse|lever|ashby|smartrecruiters: {slug: Company Name}}
+  watchlist:
+    greenhouse:
+      anthropic: Anthropic
+      databricks: Databricks
+      togetherai: Together AI
+      cerebrassystems: Cerebras
+      scaleai: Scale AI
+    ashby:
+      openai: OpenAI
+      cohere: Cohere
+      modal: Modal
+    lever: {}
+    smartrecruiters: {}
+
+limits:
+  enrich_per_run: 80       # job-description fetches for newly matched postings
+  push_per_run: 20         # individual pushes; the rest go into one summary
+  push_per_day: 200
+  push_max_age_days: 7     # older postings go to the feed without a push
+  feed_days: 21

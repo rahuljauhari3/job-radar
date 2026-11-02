@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/
+ios/build/
+ios/*.xcodeproj/
+ios/DerivedData/
+.DS_Store
+.env
+*.egg-info/
