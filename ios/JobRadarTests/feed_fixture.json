@@ -1,0 +1,323 @@
+{
+ "version": 1,
+ "generated_at": 1793642357.9282088,
+ "stats": {
+  "sources": {
+   "simplify": 17372,
+   "simplify-pending": 100,
+   "ats": {
+    "boards": 1196,
+    "jobs": 60128,
+    "errors": 0
+   },
+   "levels": 485
+  },
+  "errors": {},
+  "bootstrap": true,
+  "enriched": 29,
+  "matched": 2116,
+  "new": 368,
+  "pushed": 0,
+  "duration_s": 93.8
+ },
+ "jobs": [
+  {
+   "company": "42dot",
+   "title": "Foundation Models Intern",
+   "url": "https://jobs.ashbyhq.com/42dot/da2487a2-afa1-464e-9f08-bf448e2b2f3b/application",
+   "locations": [
+    "SF",
+    "Sunnyvale, CA",
+    "Sunnyvale, United States"
+   ],
+   "terms": [
+    "N/A"
+   ],
+   "posted_at": 1793059200,
+   "sponsorship": "Other",
+   "degrees": [],
+   "category": "AI/ML/Data",
+   "active": true,
+   "tier": "A",
+   "score": 93,
+   "reasons": [
+    "title: “foundation model”",
+    "JD mentions pytorch, inference, python, linux, hugging face, transformers, recommendation, performance"
+   ],
+   "flags": [
+    "term not stated"
+   ],
+   "id": "4a8d9315b2b73e91",
+   "snippet": "WE ARE LOOKING FOR THE BEST ABOUT US 42dot is a mobility AI company committed to solving mobility challenges with software and AI. As the Global Software Center of Hyundai Motor Group, 42dot pioneers the future of mobility by advancing the development of software-defined vehicles. We develop safety-first, user-centric software-defined vehicle technologies that deliver the latest performance through continuous updates like smartphones. By advancing software and AI technology, 42dot envisions a world where everything is connected and moves autonomously through a self-managing urban transportation operating system. ABOUT THE ROLE We’re looking for an intern to help our team develop and…",
+   "first_seen": 1793642357.9282088,
+   "sources": [
+    {
+     "name": "Simplify",
+     "url": "https://jobs.ashbyhq.com/42dot/da2487a2-afa1-464e-9f08-bf448e2b2f3b/application",
+     "kind": "simplify",
+     "id": "8e8c10af-4384-4d41-b1c2-6163b49e50f2"
+    },
+    {
+     "name": "Ashby",
+     "url": "https://jobs.ashbyhq.com/42dot/da2487a2-afa1-464e-9f08-bf448e2b2f3b",
+     "kind": "ashby",
+     "id": "da2487a2-afa1-464e-9f08-bf448e2b2f3b"
+    },
+    {
+     "name": "levels.fyi",
+     "url": "https://www.linkedin.com/jobs/view/internship-foundation-models-at-42dot-4484267427",
+     "kind": "levels",
+     "id": "23hx35f8z023y"
+    }
+   ],
+   "recent": true
+  },
+  {
+   "company": "Normal Computing",
+   "title": "AI Research Resident - Algorithms Codesign",
+   "url": "https://jobs.ashbyhq.com/normalcomputing/edfcbcf6-047f-4c12-801b-c78b199e0080/application",
+   "locations": [
+    "NYC",
+    "New York"
+   ],
+   "terms": [
+    "N/A"
+   ],
+   "posted_at": 1793059200,
+   "sponsorship": "Other",
+   "degrees": [
+    "Master's",
+    "PhD"
+   ],
+   "category": "AI/ML/Data",
+   "active": true,
+   "tier": "B",
+   "score": 78,
+   "reasons": [
+    "title: “ai research”",
+    "JD mentions kernel fusion, quantiz, inference, benchmark, python, fusion, parallel"
+   ],
+   "flags": [
+    "term not stated"
+   ],
+   "id": "2de6777a24b7603c",
+   "snippet": "NORMAL COMPUTING | BUILD WITH US Normal is an applied AI company solving the hardest problems in AI and silicon. We build foundational hardware and software for the semiconductor industry, critical AI infrastructure, and the broader systems that power our world, in partnership with the world's most advanced institutions. We work as one team across New York City, Silicon Valley (Mountain View), and London. THE RESIDENCY PROGRAM The AI Research Residency is Normal Computing's flagship program for exceptional researchers and engineers who want to work at the frontier of AI. Residents join a small, hand-picked cohort with a dedicated research mentor, direct access to the team developing the…",
+   "first_seen": 1793642357.9282088,
+   "sources": [
+    {
+     "name": "Simplify",
+     "url": "https://jobs.ashbyhq.com/normalcomputing/edfcbcf6-047f-4c12-801b-c78b199e0080/application",
+     "kind": "simplify",
+     "id": "6f13a743-47ce-489b-8a21-ebca0f8116e1"
+    },
+    {
+     "name": "Ashby",
+     "url": "https://jobs.ashbyhq.com/normalcomputing/edfcbcf6-047f-4c12-801b-c78b199e0080",
+     "kind": "ashby",
+     "id": "edfcbcf6-047f-4c12-801b-c78b199e0080"
+    }
+   ],
+   "recent": true
+  },
+  {
+   "company": "Toyota Research Institute",
+   "title": "Human Interactive Driving Research Intern - Learning-Based Control for Safe Autonomous Driving",
+   "url": "https://jobs.lever.co/tri/e67d9f3e-f731-4f66-ab87-bdc45fe45d88/apply",
+   "locations": [
+    "Los Altos, CA"
+   ],
+   "terms": [
+    "N/A",
+    "Intern"
+   ],
+   "posted_at": 1793295499.405,
+   "sponsorship": "Other",
+   "degrees": [
+    "Master's",
+    "PhD"
+   ],
+   "category": "AI/ML/Data",
+   "active": true,
+   "tier": "C",
+   "score": 42,
+   "reasons": [
+    "title: “autonomous”",
+    "JD mentions python, embedding, performance"
+   ],
+   "flags": [
+    "term not stated"
+   ],
+   "id": "c989ffdf6a251c5b",
+   "snippet": "At Toyota Research Institute (TRI), we’re on a mission to improve the quality of human life. We’re developing new tools and capabilities to amplify the human experience. To lead this transformative shift in mobility, we’ve built a world-class team advancing the state of the art in AI, robotics, driving, and material sciences. This is a paid 12-week internship opportunity and is a hybrid, in-office role. Here’s a glimpse into the Internship experience from some of our TRI interns! The Team Within the Extreme Performance Intelligent Control team, we are developing techniques to advance vehicle safety and performance capabilities using tools from machine learning, optimization, and control…",
+   "first_seen": 1793642357.9282088,
+   "sources": [
+    {
+     "name": "Simplify",
+     "url": "https://jobs.lever.co/tri/e67d9f3e-f731-4f66-ab87-bdc45fe45d88/apply",
+     "kind": "simplify",
+     "id": "6741026d-0ab5-4a2b-aa49-6d94c28deb0d"
+    },
+    {
+     "name": "Lever",
+     "url": "https://jobs.lever.co/tri/e67d9f3e-f731-4f66-ab87-bdc45fe45d88",
+     "kind": "lever",
+     "id": "e67d9f3e-f731-4f66-ab87-bdc45fe45d88"
+    }
+   ],
+   "recent": true
+  },
+  {
+   "company": "worldscaled",
+   "title": "Infrastructure Engineer Intern (Summer 2027)",
+   "url": "https://worldscaled.com/join/60bf2b1be2e7ced3/",
+   "locations": [
+    "Palo Alto, CA"
+   ],
+   "terms": [
+    "Summer 2027",
+    "Winter 2027"
+   ],
+   "posted_at": 1793592685.0,
+   "sponsorship": "Does Not Offer Sponsorship",
+   "degrees": [],
+   "category": "Software Engineering",
+   "active": true,
+   "tier": "A",
+   "score": 72,
+   "reasons": [
+    "title: “infrastructure engineer”",
+    "target term"
+   ],
+   "flags": [
+    "no sponsorship"
+   ],
+   "id": "e36ba8114d46a4b9",
+   "snippet": "",
+   "first_seen": 1793642357.9282088,
+   "sources": [
+    {
+     "name": "Simplify (pending)",
+     "url": "https://worldscaled.com/join/60bf2b1be2e7ced3/",
+     "kind": "simplify-pending",
+     "id": "9741"
+    }
+   ],
+   "recent": true
+  },
+  {
+   "company": "worldscaled",
+   "title": "Software Engineer Intern (Winter 2027)",
+   "url": "https://worldscaled.com/join/54f1f09054b4ac4b/",
+   "locations": [
+    "Palo Alto, CA"
+   ],
+   "terms": [
+    "Winter 2027",
+    "Summer 2027"
+   ],
+   "posted_at": 1793591737.0,
+   "sponsorship": "Does Not Offer Sponsorship",
+   "degrees": [],
+   "category": "Software Engineering",
+   "active": true,
+   "tier": "B",
+   "score": 52,
+   "reasons": [
+    "title: “software engineer”",
+    "target term"
+   ],
+   "flags": [
+    "no sponsorship"
+   ],
+   "id": "133431eafc8d2c00",
+   "snippet": "",
+   "first_seen": 1793642357.9282088,
+   "sources": [
+    {
+     "name": "Simplify (pending)",
+     "url": "https://worldscaled.com/join/54f1f09054b4ac4b/",
+     "kind": "simplify-pending",
+     "id": "9723"
+    }
+   ],
+   "recent": true
+  },
+  {
+   "company": "Waymo",
+   "title": "Sensor Performance Engineer Intern",
+   "url": "https://careers.withwaymo.com/jobs?gh_jid=8319171",
+   "locations": [
+    "Mountain View, CA"
+   ],
+   "terms": [
+    "Summer 2027"
+   ],
+   "posted_at": 1793117958,
+   "sponsorship": "Other",
+   "degrees": [
+    "Master's",
+    "PhD"
+   ],
+   "category": "Hardware",
+   "active": true,
+   "tier": "A",
+   "score": 78,
+   "reasons": [
+    "title: “performance engineer”",
+    "target term"
+   ],
+   "flags": [],
+   "id": "0dc6296f58b6ead2",
+   "snippet": "",
+   "first_seen": 1793642357.9282088,
+   "sources": [
+    {
+     "name": "Simplify",
+     "url": "https://careers.withwaymo.com/jobs?gh_jid=8319171",
+     "kind": "simplify",
+     "id": "2925b61d-685b-4e5f-9dfd-2135a9e1f5eb"
+    }
+   ],
+   "recent": true
+  },
+  {
+   "company": "General Motors",
+   "title": "AI/ML Engineer Intern - Autonomous Vehicles",
+   "url": "https://generalmotors.wd5.myworkdayjobs.com/Careers_GM/job/Sunnyvale-California-United-States-of-America/XMLNAME-2027-Summer-Intern---AI-ML-Engineer---Autonomous-Vehicles_JR-202623439",
+   "locations": [
+    "Seattle, WA",
+    "Sunnyvale, CA"
+   ],
+   "terms": [
+    "Summer 2027"
+   ],
+   "posted_at": 1793232000,
+   "sponsorship": "Other",
+   "degrees": [
+    "Bachelor's",
+    "Master's"
+   ],
+   "category": "Software",
+   "active": true,
+   "tier": "A",
+   "score": 78,
+   "reasons": [
+    "title: “ml engineer”",
+    "target term"
+   ],
+   "flags": [],
+   "id": "2dfb12d1c637114a",
+   "snippet": "",
+   "first_seen": 1793642357.9282088,
+   "sources": [
+    {
+     "name": "Simplify",
+     "url": "https://generalmotors.wd5.myworkdayjobs.com/Careers_GM/job/Sunnyvale-California-United-States-of-America/XMLNAME-2027-Summer-Intern---AI-ML-Engineer---Autonomous-Vehicles_JR-202623439",
+     "kind": "simplify",
+     "id": "4104d34a-1f77-48e8-bc0d-96899f61db22"
+    }
+   ],
+   "recent": true
+  }
+ ]
+}

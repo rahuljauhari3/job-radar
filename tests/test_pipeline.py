@@ -132,3 +132,23 @@ def test_dry_run_writes_nothing(env, respx_mock):
     env.dry_run = True
     asyncio.run(pipeline.run(env, now=NOW))
     assert fake.pushes == [] and not env.state_path.exists() and not env.feed_path.exists()
+
+
+def test_closed_simplify_row_does_not_swallow_live_posting(env, respx_mock):
+    """A closed 2026 Simplify row and a live 2027 board posting share a title (and so a key)."""
+    fake = Fake(respx_mock)
+    closed = listing("OLD", "Software Engineer Intern", posted=NOW - 300 * 86400)
+    closed.update(active=False, terms=["Summer 2026"])
+    fake.rows = [closed]
+    fake.greenhouse = [{
+        "id": 5, "title": "Software Engineer Intern", "company_name": "Acme",
+        "absolute_url": "https://job-boards.greenhouse.io/acme/jobs/5", "location": {"name": "Austin, TX"},
+        "first_published": "2026-11-01T10:00:00Z",
+    }]
+    asyncio.run(pipeline.run(env, now=NOW))
+    feed = json.loads(env.feed_path.read_text())
+    assert [j["sources"][0]["kind"] for j in feed["jobs"]] == ["greenhouse"]
+
+    fake.pushes.clear()
+    stats = asyncio.run(pipeline.run(env, now=NOW + 600))  # Simplify answers 304 this time
+    assert stats["new"] == 0 and fake.pushes == []

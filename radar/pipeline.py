@@ -42,13 +42,25 @@ class Options:
     github_token: str | None = None
 
 
+def _merge_locations(a: list[str], b: list[str]) -> list[str]:
+    """Union of locations, skipping ones whose city is already listed ("Sunnyvale, United States")."""
+    out = list(a)
+    cities = {loc.split(",")[0].strip().lower() for loc in out}
+    for loc in b:
+        city = loc.split(",")[0].strip().lower()
+        if city not in cities:
+            out.append(loc)
+            cities.add(city)
+    return out[:12]
+
+
 def merge(jobs: list[Job]) -> tuple[Job, list[dict]]:
     """Combine one posting's records; returns the primary record and its source links."""
     jobs = sorted(jobs, key=lambda j: SOURCE_RANK.get(j.source, 9))
     primary = jobs[0]
     for other in jobs[1:]:
         primary.terms = list(dict.fromkeys(primary.terms + other.terms))
-        primary.locations = list(dict.fromkeys(primary.locations + other.locations))[:12]
+        primary.locations = _merge_locations(primary.locations, other.locations)
         if len(other.description) > len(primary.description):
             primary.description = other.description
         primary.sponsorship = primary.sponsorship or other.sponsorship
@@ -157,9 +169,17 @@ async def run(opt: Options, now: float | None = None) -> dict:
     async with http.client() as c:
         jobs = await _gather_sources(c, opt, cfg, state, stats, bootstrap)
 
+        # Closed Simplify rows don't join groups: companies reuse titles every year, so a
+        # closed 2026 row would otherwise swallow the live 2027 posting with the same title.
+        closed = {j.source_id for j in jobs if j.source == "simplify" and not j.active}
+        for item in state.feed.values():
+            if any(s["kind"] == "simplify" and s.get("id") in closed for s in item["sources"]):
+                item["active"] = False
+
         groups: dict[str, list[Job]] = defaultdict(list)
         for j in jobs:
-            groups[j.key].append(j)
+            if j.active:
+                groups[j.key].append(j)
 
         new: list[tuple[Job, list[dict]]] = []
         matched = 0
@@ -169,10 +189,8 @@ async def run(opt: Options, now: float | None = None) -> dict:
                 item = state.feed[key]
                 known = {s["kind"] for s in item["sources"]}
                 item["sources"] += [s for s in sources if s["kind"] not in known]
-                if primary.source == "simplify":
-                    item["active"] = primary.active
                 continue
-            if not primary.active or not evaluate(primary, profile, now):
+            if not evaluate(primary, profile, now):
                 continue
             matched += 1
             if key not in state.seen:
@@ -184,11 +202,11 @@ async def run(opt: Options, now: float | None = None) -> dict:
             if not evaluate(job, profile, now):  # description can't fail a gate, but be safe
                 continue
             state.seen[job.key] = now
-            recent = not job.posted_at or now - job.posted_at < limits["push_max_age_days"] * 86400
-            if bootstrap and not recent:
+            # Older postings found late (a board polled for the first time, a stale pending
+            # issue) are remembered but not announced as new.
+            if job.posted_at and now - job.posted_at > limits["push_max_age_days"] * 86400:
                 continue
             item = job.to_feed(now, sources)
-            item["recent"] = recent
             state.feed[job.key] = item
             new_items.append(item)
 
@@ -223,8 +241,6 @@ async def _push(c, state: State, items: list[dict], profile: Profile, limits: di
     solo_tiers = set(profile.raw["push_individually"])
     solo, rest = [], []
     for item in sorted(items, key=lambda i: -i["score"]):
-        if not item["recent"]:
-            continue
         ok = item["tier"] in solo_tiers and "US citizenship/clearance" not in item["flags"]
         under_cap = len(solo) < limits["push_per_run"] and state.pushes.get(today, 0) + len(solo) < limits["push_per_day"]
         (solo if ok and under_cap else rest).append(item)

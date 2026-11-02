@@ -39,7 +39,7 @@ def parse_listing(x: dict) -> Job | None:
         title=x.get("title", "").strip(),
         url=x["url"].replace("?embed=true", "").replace("&embed=true", ""),
         locations=x.get("locations") or [],
-        terms=x.get("terms") or [],
+        terms=[t for t in x.get("terms") or [] if t and t != "N/A"],
         posted_at=x.get("date_posted"),
         sponsorship=x.get("sponsorship"),
         degrees=x.get("degrees") or [],

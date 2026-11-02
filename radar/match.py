@@ -33,6 +33,11 @@ US_STATES = {
 US_CITIES = (
     "new york city", "nyc", "san francisco", "sf bay area", "bay area", "silicon valley",
     "seattle", "boston", "austin", "chicago", "los angeles", "atlanta", "denver", "pittsburgh",
+    "san jose", "palo alto", "mountain view", "sunnyvale", "santa clara", "menlo park", "redwood city",
+    "cupertino", "san mateo", "san diego", "irvine", "redmond", "bellevue", "kirkland", "houston",
+    "dallas", "raleigh", "philadelphia", "new york", "miami", "phoenix", "salt lake city",
+    "minneapolis", "detroit", "ann arbor", "columbus", "nashville", "charlotte", "baltimore",
+    "san antonio", "orlando", "tampa", "boulder", "princeton", "arlington", "mclean", "reston",
 )
 US_ABBREVIATIONS = {"sf", "la", "nyc", "dc", "remote in usa", "remote us", "us remote"}
 _STATE_CODE = re.compile(r"(?:,|\b)\s*(" + "|".join(US_STATES) + r")\b(?!\.\w)")

@@ -26,6 +26,7 @@ _URL_PATTERNS = {
     "ashby": re.compile(r"jobs\.ashbyhq\.com/([^/?#]+)(?:/([0-9a-f-]{36}))?", re.I),
     "smartrecruiters": re.compile(r"smartrecruiters\.com/([\w-]+)(?:/(\d+))?", re.I),
 }
+_TERM_WORDS = re.compile(r"\b(spring|summer|fall|autumn|winter|20\d\d|co-?op)\b", re.I)
 _NOT_SLUGS = {"embed", "v1", "jobs", "job-boards", "boards", "api"}
 
 
@@ -101,7 +102,7 @@ async def fetch_board(c: httpx.AsyncClient, platform: str, slug: str, company: s
                     title=j.get("text", "").strip(),
                     url=j.get("hostedUrl", ""),
                     locations=locs,
-                    terms=[cat["commitment"]] if cat.get("commitment") else [],
+                    terms=[cat["commitment"]] if _TERM_WORDS.search(cat.get("commitment") or "") else [],
                     posted_at=j["createdAt"] / 1000 if j.get("createdAt") else None,
                     description=desc,
                 )

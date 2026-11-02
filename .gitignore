@@ -9,3 +9,4 @@ ios/DerivedData/
 .DS_Store
 .env
 *.egg-info/
+.claude/
