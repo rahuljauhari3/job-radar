@@ -20,7 +20,15 @@ cd ios && xcodegen generate && open JobRadar.xcodeproj
 1. In Xcode: Settings → Accounts → add your Apple ID.
 2. Select the JobRadar target → Signing & Capabilities → Team: your personal team. If the bundle ID is taken, change `com.rahuljauhari.JobRadar` to something unique.
 3. Plug in the iPhone, pick it as the run destination, press Run. On the phone: Settings → General → VPN & Device Management → trust your developer certificate.
-4. Free signing expires after 7 days; press Run again to renew.
+4. If Xcode says Developer Mode is required: on the phone, Settings → Privacy & Security → Developer Mode → on, then restart.
+5. Free signing expires after 7 days; press Run again to renew.
+
+Or from the terminal, with the phone plugged in (your team ID is the `OU=` value printed by `security find-certificate -c "Apple Development" -p | openssl x509 -noout -subject`):
+
+```bash
+xcodebuild -project JobRadar.xcodeproj -scheme JobRadar -destination 'platform=iOS,name=<your iPhone name>' -derivedDataPath build/device -allowProvisioningUpdates DEVELOPMENT_TEAM=<team id> build
+xcrun devicectl device install app --device '<your iPhone name>' build/device/Build/Products/Debug-iphoneos/JobRadar.app
+```
 
 ## Tests
 
