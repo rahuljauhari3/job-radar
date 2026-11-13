@@ -25,7 +25,7 @@ levels:
     - co-op
 
 ats:
-  # Every board is polled once per `rotation` runs (runs are ~10 min apart).
+  # Every board is polled once per `rotation` runs (runs are ~3 h apart, plus a few extra).
   rotation: 3
   # Boards are discovered from Simplify posting URLs; add more here.
   # Format: {greenhouse|lever|ashby|smartrecruiters: {slug: Company Name}}

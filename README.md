@@ -1,11 +1,11 @@
 # Job Radar
 
-Watches internship and co-op postings in the US and pushes the relevant ones to your phone within minutes of them appearing.
+Watches internship and co-op postings in the US and pushes the relevant ones to your phone within a few hours of them appearing.
 
 ```
-GitHub Actions, every 10 min ─► radar (Python) ─► ntfy push ─► iPhone (tap = apply)
-                                     │
-                                     └─► data branch: feed.json ─► Job Radar iOS app (feed + tracker)
+GitHub Actions, every ~3 h ─► radar (Python) ─► ntfy push ─► iPhone (tap = apply)
+                                   │
+                                   └─► data branch: feed.json ─► Job Radar iOS app (feed + tracker)
 ```
 
 ## Sources
@@ -39,8 +39,9 @@ NTFY_TOPIC=your-topic .venv/bin/python -m radar test-push
 ## Deploy
 
 1. `gh secret set NTFY_TOPIC` with a long random topic name (it is the only thing protecting your notifications).
-2. Run the `radar` workflow once from the Actions tab (the first run bootstraps: one "Job Radar is live" push, no flood).
-3. Install the [ntfy iOS app](https://apps.apple.com/app/ntfy/id1625396347) and subscribe to the same topic on `ntfy.sh`.
+2. Create the clock before the first run: `gh api -X PUT 'repos/{owner}/{repo}/environments/radar-interval' -F wait_timer=180`. Every radar run starts `radar-timer.yml`, which sits out this 3-hour wait timer without holding a runner, then starts the next run. GitHub fires the workflow's own `schedule:` only a few times a day for this repo, so those runs are just extra polls and restart the chain if it breaks. To change the interval, change the wait timer (minutes).
+3. Run the `radar` workflow once from the Actions tab (the first run bootstraps: one "Job Radar is live" push, no flood). That run also starts the chain.
+4. Install the official [ntfy iOS app](https://apps.apple.com/app/ntfy/id1625396347) and subscribe to the same topic on `ntfy.sh`. Third-party clients that default to another server (ntfy-me.com, for one) never see these messages.
 
 GitHub disables scheduled workflows in repositories with no activity for 60 days; push any commit to `main` to re-arm it.
 

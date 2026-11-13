@@ -1,8 +1,10 @@
 name: radar
 
+# The reliable clock is radar-timer.yml: every run restarts it, and 3 hours later it
+# starts the next run. GitHub fires the schedule below only a few times a day for this
+# repo; those runs are extra polls, and they restart the chain if it ever breaks.
 on:
   schedule:
-    # Off the :00/:10 marks, where GitHub delays and drops scheduled runs most.
     - cron: "3-59/10 * * * *"
   workflow_dispatch:
     inputs:
@@ -14,12 +16,23 @@ on:
 permissions:
   contents: write
   issues: read
+  actions: write # start radar-timer.yml
 
 concurrency:
   group: radar
   cancel-in-progress: false
 
 jobs:
+  timer:
+    # A job of its own, so a failed poll can't stop the next one.
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Restart the 3-hour timer
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run radar-timer.yml --repo "$GITHUB_REPOSITORY" --ref main
+
   poll:
     runs-on: ubuntu-latest
     timeout-minutes: 15

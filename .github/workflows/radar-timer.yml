@@ -1,0 +1,44 @@
+name: radar-timer
+
+# The clock for radar.yml. Every radar run starts one of these. It sits out the
+# radar-interval environment's wait timer (3 hours; no runner is held while it
+# waits), then starts the next radar run, which starts the next timer.
+#
+# Only the newest timer may fire: starting one cancels older ones, and the check
+# below catches any that slip through, so timers can never multiply.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+concurrency:
+  group: radar-timer
+  cancel-in-progress: true
+
+jobs:
+  wait:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: radar-interval
+    steps:
+      - name: Start the next radar run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          newest=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow radar-timer.yml \
+            --limit 1 --json databaseId --jq '.[0].databaseId')
+          if [ "$newest" != "$GITHUB_RUN_ID" ]; then
+            echo "Timer $newest is newer and will start the next run."
+            exit 0
+          fi
+          # A missing environment gets recreated with no wait timer, which would chain
+          # runs back to back. Refuse rather than loop; the schedule keeps polling.
+          created=$(gh run view "$GITHUB_RUN_ID" --repo "$GITHUB_REPOSITORY" --json createdAt --jq .createdAt)
+          waited=$(( $(date +%s) - $(date -d "$created" +%s) ))
+          if [ "$waited" -lt 3000 ]; then
+            echo "::error::Waited only ${waited}s. Set the radar-interval environment's wait timer (README, Deploy)."
+            exit 1
+          fi
+          gh workflow run radar.yml --repo "$GITHUB_REPOSITORY" --ref main
