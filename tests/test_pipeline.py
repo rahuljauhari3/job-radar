@@ -17,6 +17,12 @@ NOW = time.time()
 LISTINGS = "https://raw.githubusercontent.com/Test/Repo/dev/.github/scripts/listings.json"
 
 
+def iso(ts: float) -> str:
+    """ISO timestamp as the boards send it. Keep fixture dates relative to NOW: postings
+    older than push_max_age_days are never pushed, so fixed dates rot."""
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(ts))
+
+
 def listing(id_, title, company="Acme", posted=NOW - 3600):
     return {
         "id": id_, "title": title, "company_name": company, "url": f"https://acme.example/{id_}",
@@ -100,11 +106,11 @@ def test_bootstrap_then_new_posting_then_quiet(env, respx_mock):
     fake.greenhouse = [{
         "id": 77, "title": "2027 Summer Intern, Software Engineer - Inference", "company_name": "Acme",
         "absolute_url": "https://job-boards.greenhouse.io/acme/jobs/77", "location": {"name": "Boston, MA"},
-        "first_published": "2026-11-02T10:00:00Z",
+        "first_published": iso(NOW - 2 * 3600),
     }]
     fake.levels_jobs = [{
         "jobId": "lv1", "title": "Backend Software Engineer Intern", "company": "Globex",
-        "locations": ["Seattle, WA"], "postedAt": "2026-11-02T09:00:00Z",
+        "locations": ["Seattle, WA"], "postedAt": iso(NOW - 3 * 3600),
         "url": "https://www.levels.fyi/jobs?jobId=lv1", "applyUrl": "https://globex.example/apply",
     }]
     stats = asyncio.run(pipeline.run(env, now=NOW + 600))
@@ -143,7 +149,7 @@ def test_closed_simplify_row_does_not_swallow_live_posting(env, respx_mock):
     fake.greenhouse = [{
         "id": 5, "title": "Software Engineer Intern", "company_name": "Acme",
         "absolute_url": "https://job-boards.greenhouse.io/acme/jobs/5", "location": {"name": "Austin, TX"},
-        "first_published": "2026-11-01T10:00:00Z",
+        "first_published": iso(NOW - 86400),
     }]
     asyncio.run(pipeline.run(env, now=NOW))
     feed = json.loads(env.feed_path.read_text())
