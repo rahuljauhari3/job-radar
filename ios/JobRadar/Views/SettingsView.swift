@@ -4,23 +4,23 @@ struct SettingsView: View {
     @Environment(FeedStore.self) private var store
     @Environment(\.openURL) private var openURL
     @AppStorage(Settings.Key.feedURL) private var feedURL = Settings.defaultFeedURL
-    @AppStorage(Settings.Key.ntfyTopic) private var ntfyTopic = ""
+    @AppStorage(Settings.Key.pushTopic) private var pushTopic = ""
     @State private var topicCopied = false
     @State private var tiers = Settings.notifyTiers
     @State private var checkResult: String?
 
-    private var topic: String { ntfyTopic.trimmingCharacters(in: .whitespacesAndNewlines) }
+    private var topic: String { pushTopic.trimmingCharacters(in: .whitespacesAndNewlines) }
     private var subscribeURL: URL? { topic.isEmpty ? nil : URL(string: "\(Settings.pushServer)/\(topic)") }
 
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("ntfy topic", text: $ntfyTopic)
+                    TextField("NTF-AI topic", text: $pushTopic)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .font(.body.monospaced())
-                        .onChange(of: ntfyTopic) { topicCopied = false }
+                        .onChange(of: pushTopic) { topicCopied = false }
                     // A universal link: NTF-AI opens it as a subscribe prompt, Safari otherwise.
                     Button {
                         if let subscribeURL { openURL(subscribeURL) }
@@ -39,7 +39,7 @@ struct SettingsView: View {
                 } header: {
                     Text("Instant push")
                 } footer: {
-                    Text("The poller pushes each new match to NTF-AI (ntf-ai.app) within minutes. Enter the topic from the repo's NTFY_TOPIC secret, tap Subscribe in NTF-AI and confirm. If Safari opens instead, copy the topic and add it in NTF-AI with + and server ntf-ai.app. Run the test-push workflow on GitHub to check.")
+                    Text("The poller pushes each new match to NTF-AI (ntf-ai.app) within minutes. Enter the topic from the repo's NTFY_TOPIC secret, tap Subscribe in NTF-AI and confirm. If Safari opens instead, copy the topic and add it in NTF-AI with +. Run the test-push workflow on GitHub to check.")
                 }
 
                 Section {
@@ -67,7 +67,7 @@ struct SettingsView: View {
                 } header: {
                     Text("Backup notifications")
                 } footer: {
-                    Text("iOS runs background refresh when it chooses, so these can lag. ntfy is the fast path.")
+                    Text("iOS runs background refresh when it chooses, so these can lag. NTF-AI is the fast path.")
                 }
 
                 Section("Feed") {

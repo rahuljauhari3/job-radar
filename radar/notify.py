@@ -1,6 +1,7 @@
-"""Phone push over the ntfy protocol: free, instant, no Apple developer account.
+"""Phone push to the NTF-AI iOS app through https://ntf-ai.app: free, instant, no account.
 
-NTFY_SERVER picks the server (ntf-ai.app for the NTF-AI iOS app; default https://ntfy.sh)."""
+ntf-ai.app speaks the ntfy protocol. NTFY_SERVER overrides it only for a self-hosted
+server of your own; GitHub Actions doesn't set it."""
 
 from __future__ import annotations
 
@@ -13,6 +14,7 @@ from radar.http import request
 TIER_TAGS = {"A": ["fire"], "B": ["briefcase"], "C": ["mag"]}
 TIER_PRIORITY = {"A": 4, "B": 3, "C": 2}
 APP_SCHEME = "jobradar://"
+SERVER = "https://ntf-ai.app"
 
 
 def job_message(item: dict) -> dict:
@@ -55,7 +57,7 @@ class Notifier:
     def __init__(self, c: httpx.AsyncClient, topic: str | None = None, server: str | None = None):
         self.c = c
         self.topic = topic or os.environ.get("NTFY_TOPIC")
-        self.server = (server or os.environ.get("NTFY_SERVER") or "https://ntfy.sh").rstrip("/")
+        self.server = (server or os.environ.get("NTFY_SERVER") or SERVER).rstrip("/")
         self.token = os.environ.get("NTFY_TOKEN")
         self.sent = 0
         self.error: str | None = None  # the last rejection, e.g. "HTTP 429: ..."

@@ -1,4 +1,4 @@
-"""Command line: `python -m radar run` polls once; `python -m radar test-push` checks ntfy."""
+"""Command line: `python -m radar run` polls once; `python -m radar test-push` sends one test push."""
 
 from __future__ import annotations
 
@@ -25,7 +25,7 @@ def main(argv: list[str] | None = None) -> int:
     r.add_argument("--only", default="simplify,levels,ats", help="comma-separated: simplify,levels,ats")
     r.add_argument("--show", type=int, default=25, help="print this many new matches")
 
-    t = sub.add_parser("test-push", help="send one test notification to NTFY_TOPIC")
+    t = sub.add_parser("test-push", help="send one test notification to NTFY_TOPIC on ntf-ai.app")
     t.add_argument("--topic")
 
     args = ap.parse_args(argv)

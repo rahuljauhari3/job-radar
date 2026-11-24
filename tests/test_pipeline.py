@@ -43,6 +43,7 @@ def env(tmp_path, monkeypatch):
     sources["ats"] = {"rotation": 1, "watchlist": {"greenhouse": {"acme": "Acme"}}}
     (cfg / "sources.yaml").write_text(yaml.safe_dump(sources))
     monkeypatch.setenv("NTFY_TOPIC", "test-topic")
+    monkeypatch.delenv("NTFY_SERVER", raising=False)
     monkeypatch.setattr(levels, "CALL_GAP_SECONDS", 0)
     return pipeline.Options(config_dir=cfg, state_path=tmp_path / "state.json", feed_path=tmp_path / "feed.json")
 
@@ -65,7 +66,7 @@ class Fake:
             json={"content": "&lt;p&gt;Work on vLLM and PyTorch inference in C++.&lt;/p&gt;"}
         )
         respx_mock.post("https://mcp.levels.fyi/").mock(side_effect=self._mcp)
-        respx_mock.post("https://ntfy.sh").mock(side_effect=self._ntfy)
+        respx_mock.post("https://ntf-ai.app").mock(side_effect=self._push)
         respx_mock.get(url__startswith="https://acme.example/").respond(200, text="")
 
     def _listings(self, request):
@@ -85,7 +86,7 @@ class Fake:
         sse = f"event: message\ndata: {json.dumps({'jsonrpc': '2.0', 'id': body['id'], 'result': result})}\n\n"
         return httpx.Response(200, text=sse, headers={"Content-Type": "text/event-stream"})
 
-    def _ntfy(self, request):
+    def _push(self, request):
         self.pushes.append(json.loads(request.content))
         return httpx.Response(200, json={"id": "x"})
 

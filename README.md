@@ -3,7 +3,7 @@
 Watches internship and co-op postings in the US and pushes the relevant ones to your phone within a few hours of them appearing.
 
 ```
-GitHub Actions, every ~3 h ─► radar (Python) ─► ntfy-protocol push (ntf-ai.app) ─► NTF-AI on iPhone (tap = apply)
+GitHub Actions, every ~3 h ─► radar (Python) ─► ntf-ai.app push ─► NTF-AI on iPhone (tap = apply)
                                    │
                                    └─► data branch: feed.json ─► Job Radar iOS app (feed + tracker)
 ```
@@ -33,18 +33,18 @@ HiringCafe and LinkedIn have no public API and block automated access, so they a
 python3 -m venv .venv && .venv/bin/pip install -e ".[dev]"
 .venv/bin/pytest -q
 .venv/bin/python -m radar run --dry-run          # poll everything, print new matches, write nothing
-NTFY_SERVER=https://ntf-ai.app NTFY_TOPIC=your-topic .venv/bin/python -m radar test-push
+NTFY_TOPIC=your-topic .venv/bin/python -m radar test-push
 ```
 
 ## Deploy
 
-1. `gh secret set NTFY_TOPIC` with a long random topic name (it is the only thing protecting your notifications), and `gh variable set NTFY_SERVER --body https://ntf-ai.app` for the server. Leave the variable unset to push to ntfy.sh instead.
+1. `gh secret set NTFY_TOPIC` with a long random topic name (it is the only thing protecting your notifications). Pushes go to that topic on ntf-ai.app.
 2. Create the clock before the first run: `gh api -X PUT 'repos/{owner}/{repo}/environments/radar-interval' -F wait_timer=180`. Every radar run starts `radar-timer.yml`, which sits out this 3-hour wait timer without holding a runner, then starts the next run. GitHub fires the workflow's own `schedule:` only a few times a day for this repo, so those runs are just extra polls and restart the chain if it breaks. To change the interval, change the wait timer (minutes).
 3. Run the `radar` workflow once from the Actions tab (the first run bootstraps: one "Job Radar is live" push, no flood). That run also starts the chain.
-4. Install [NTF-AI](https://apps.apple.com/app/id6787782178) (free, no account; an independent app that speaks the ntfy protocol), allow notifications, then open `https://ntf-ai.app/<topic>` on the phone and confirm Subscribe. Job Radar's Settings has a Subscribe in NTF-AI button that opens the same link. NTF-AI shows ntfy.sh topics only when opened, so the server has to be ntf-ai.app.
-5. Run the `test-push` workflow from the Actions tab. It sends one "Job Radar test" notification to the secret's topic on that server. If it shows inside the app but no banner appears, turn on iOS Settings → Notifications for the app. If it doesn't show even inside the app, the app is on a different topic or server. GitHub never shows a secret's value, so if you've lost it, set a new one and subscribe to that.
+4. Install [NTF-AI](https://apps.apple.com/app/id6787782178) (free, no account), allow notifications, then open `https://ntf-ai.app/<topic>` on the phone and confirm Subscribe. Job Radar's Settings has a Subscribe in NTF-AI button that opens the same link.
+5. Run the `test-push` workflow from the Actions tab. It sends one "Job Radar test" notification to the secret's topic. If it shows inside NTF-AI but no banner appears, turn on iOS Settings → Notifications → NTF-AI. If it doesn't show even inside the app, the app is on a different topic. GitHub never shows a secret's value, so if you've lost it, set a new one and subscribe to that.
 
-Why not the official ntfy app: on iOS 27, version 1.7.0 loses its push registration, so messages appear only when the app is opened ([binwiederhier/ntfy#2117](https://github.com/binwiederhier/ntfy/issues/2117)). If that is fixed, unset `NTFY_SERVER` and subscribe there; the messages are the same.
+Job Radar used ntfy.sh and the official ntfy app until November 2026, when that app (1.7.0 on iOS 27) stopped showing pushes ([binwiederhier/ntfy#2117](https://github.com/binwiederhier/ntfy/issues/2117)). NTF-AI speaks the same protocol, which is why the secret is still called `NTFY_TOPIC`.
 
 GitHub disables scheduled workflows in repositories with no activity for 60 days; push any commit to `main` to re-arm it.
 

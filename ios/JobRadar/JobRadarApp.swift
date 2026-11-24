@@ -31,7 +31,7 @@ struct JobRadarApp: App {
     }
 }
 
-/// Deep links: `jobradar://job/<id>` from an ntfy push or notification, `jobradar://feed`.
+/// Deep links: `jobradar://job/<id>` from an NTF-AI push or notification, `jobradar://feed`.
 @MainActor
 @Observable
 final class Router {

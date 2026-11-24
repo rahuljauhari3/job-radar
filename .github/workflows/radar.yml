@@ -55,7 +55,6 @@ jobs:
       - name: Poll
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-          NTFY_SERVER: ${{ vars.NTFY_SERVER }} # unset = https://ntfy.sh
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python -m radar run --state out/state.json --feed out/feed.json ${{ inputs.bootstrap && '--bootstrap' || '' }}
 

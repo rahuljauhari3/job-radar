@@ -2,7 +2,7 @@ import BackgroundTasks
 import Foundation
 import UserNotifications
 
-/// Local notifications for new matches. A fallback for when the ntfy app isn't set up:
+/// Local notifications for new matches. A fallback for when NTF-AI isn't set up:
 /// iOS decides when background refresh runs, so these can lag by hours.
 enum LocalNotifier {
     static let maxPerCheck = 8

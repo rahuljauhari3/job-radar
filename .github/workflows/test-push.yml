@@ -1,8 +1,7 @@
 name: test-push
 
-# Sends one "Job Radar test" notification to the NTFY_TOPIC secret on the NTFY_SERVER
-# variable's server, so you can check the phone side without knowing the topic.
-# Run it from the Actions tab.
+# Sends one "Job Radar test" notification to the NTFY_TOPIC secret on ntf-ai.app, so
+# you can check the phone side without knowing the topic. Run it from the Actions tab.
 on:
   workflow_dispatch:
 
@@ -24,14 +23,13 @@ jobs:
       - name: Send a test notification
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
-          NTFY_SERVER: ${{ vars.NTFY_SERVER }} # unset = https://ntfy.sh
         run: python -m radar test-push
 
       - name: What to check on the phone
         run: |
           cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
-          The server accepted the test. A "Job Radar test" notification should be on your phone now.
+          ntf-ai.app accepted the test. A "Job Radar test" notification should be on your phone now.
 
-          - **Nothing in the app, even when opened:** the app isn't subscribed to this topic on this server. In NTF-AI, open `https://ntf-ai.app/<NTFY_TOPIC>` on the phone and tap Subscribe (or Job Radar → Settings → Subscribe in NTF-AI). GitHub never shows a secret's value, so if you've lost it, set a new one with `gh secret set NTFY_TOPIC` and subscribe to that.
-          - **The message is in the app but no banner appeared:** turn on iOS Settings → Notifications for the app, and check that no Focus mode is hiding it.
+          - **Nothing in NTF-AI, even when opened:** the app isn't subscribed to this topic. On the phone, open `https://ntf-ai.app/<NTFY_TOPIC>` on the phone and tap Subscribe (or Job Radar → Settings → Subscribe in NTF-AI). GitHub never shows a secret's value, so if you've lost it, set a new one with `gh secret set NTFY_TOPIC` and subscribe to that.
+          - **The message is in NTF-AI but no banner appeared:** turn on iOS Settings → Notifications → NTF-AI, and check that no Focus mode is hiding it.
           EOF

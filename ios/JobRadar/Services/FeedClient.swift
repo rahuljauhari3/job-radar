@@ -2,13 +2,13 @@ import Foundation
 
 enum Settings {
     static let defaultFeedURL = "https://raw.githubusercontent.com/rahuljauhari3/job-radar/data/feed.json"
-    /// Where the poller pushes (the repo's NTFY_SERVER variable). NTF-AI opens `<server>/<topic>` as a subscribe prompt.
+    /// Where the poller pushes (radar/notify.py SERVER). NTF-AI opens `<server>/<topic>` as a subscribe prompt.
     static let pushServer = "https://ntf-ai.app"
     static let pushAppStoreURL = URL(string: "https://apps.apple.com/app/id6787782178")!
 
     enum Key {
         static let feedURL = "feedURL"
-        static let ntfyTopic = "ntfyTopic"
+        static let pushTopic = "ntfyTopic" // stored key kept from the ntfy days so saved topics survive
         static let notifyTiers = "notifyTiers"
         static let seenIDs = "seenIDs"
         static let notifiedIDs = "notifiedIDs"
