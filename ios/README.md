@@ -5,7 +5,7 @@ SwiftUI, iOS 17+, SwiftData. Reads `feed.json` from the poller and keeps your ap
 - **Feed:** new matches grouped by the day they were first seen, with tier/score badges, filters (tier, co-ops, hide tracked, hide citizenship/sponsorship flags) and search. Swipe right = Applied, swipe left = Save / Hide.
 - **Detail:** why it matched, flags, description snippet, every source it was seen on, the status picker, and "Copy /tailor-resume prompt".
 - **Tracker:** Saved → Applied → OA → Interview → Offer / Rejected, with OA and interview rates.
-- **Settings:** ntfy topic and one-tap subscribe, backup local notifications per tier, feed URL.
+- **Settings:** ntfy topic with Subscribe in NTF-AI (opens `https://ntf-ai.app/<topic>`) and Copy buttons, backup local notifications per tier, feed URL.
 - Deep links: `jobradar://job/<id>` (the "Open in Job Radar" button on each ntfy push) and `jobradar://feed`.
 
 ## Build

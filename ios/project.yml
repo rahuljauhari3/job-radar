@@ -24,7 +24,6 @@ targets:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
         UIBackgroundModes: [fetch, processing]
         BGTaskSchedulerPermittedIdentifiers: [com.rahuljauhari.JobRadar.refresh]
-        LSApplicationQueriesSchemes: [ntfy]
         CFBundleURLTypes:
           - CFBundleURLName: com.rahuljauhari.JobRadar
             CFBundleURLSchemes: [jobradar]

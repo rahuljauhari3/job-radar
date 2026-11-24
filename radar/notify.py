@@ -1,4 +1,6 @@
-"""Phone push through ntfy (https://ntfy.sh): free, instant, no Apple developer account."""
+"""Phone push over the ntfy protocol: free, instant, no Apple developer account.
+
+NTFY_SERVER picks the server (ntf-ai.app for the NTF-AI iOS app; default https://ntfy.sh)."""
 
 from __future__ import annotations
 
@@ -56,6 +58,7 @@ class Notifier:
         self.server = (server or os.environ.get("NTFY_SERVER") or "https://ntfy.sh").rstrip("/")
         self.token = os.environ.get("NTFY_TOKEN")
         self.sent = 0
+        self.error: str | None = None  # the last rejection, e.g. "HTTP 429: ..."
 
     @property
     def enabled(self) -> bool:
@@ -68,4 +71,6 @@ class Notifier:
         r = await request(self.c, "POST", self.server, json={"topic": self.topic, **msg}, headers=headers)
         if r.is_success:
             self.sent += 1
+        else:
+            self.error = f"HTTP {r.status_code}: {r.text.strip()[:200]}"
         return r.is_success

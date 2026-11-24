@@ -58,5 +58,5 @@ async def _test_push(topic: str | None) -> int:
             print("Set NTFY_TOPIC or pass --topic")
             return 1
         ok = await n.send({"title": "Job Radar test", "message": "Notifications are working.", "tags": ["white_check_mark"]})
-        print("sent" if ok else "failed")
+        print(f"sent to {n.server}" if ok else f"failed: {n.error}")
         return 0 if ok else 1

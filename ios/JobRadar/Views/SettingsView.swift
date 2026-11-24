@@ -5,8 +5,12 @@ struct SettingsView: View {
     @Environment(\.openURL) private var openURL
     @AppStorage(Settings.Key.feedURL) private var feedURL = Settings.defaultFeedURL
     @AppStorage(Settings.Key.ntfyTopic) private var ntfyTopic = ""
+    @State private var topicCopied = false
     @State private var tiers = Settings.notifyTiers
     @State private var checkResult: String?
+
+    private var topic: String { ntfyTopic.trimmingCharacters(in: .whitespacesAndNewlines) }
+    private var subscribeURL: URL? { topic.isEmpty ? nil : URL(string: "\(Settings.pushServer)/\(topic)") }
 
     var body: some View {
         NavigationStack {
@@ -16,15 +20,26 @@ struct SettingsView: View {
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .font(.body.monospaced())
-                    Button("Subscribe in the ntfy app") {
-                        if let url = URL(string: "ntfy://ntfy.sh/\(ntfyTopic)") { openURL(url) }
+                        .onChange(of: ntfyTopic) { topicCopied = false }
+                    // A universal link: NTF-AI opens it as a subscribe prompt, Safari otherwise.
+                    Button {
+                        if let subscribeURL { openURL(subscribeURL) }
+                    } label: {
+                        Label("Subscribe in NTF-AI", systemImage: "bell.badge")
                     }
-                    .disabled(ntfyTopic.isEmpty)
-                    Link("Get the ntfy app", destination: URL(string: "https://apps.apple.com/app/ntfy/id1625396347")!)
+                    .disabled(subscribeURL == nil)
+                    Button {
+                        UIPasteboard.general.string = topic
+                        topicCopied = true
+                    } label: {
+                        Label(topicCopied ? "Copied" : "Copy topic", systemImage: topicCopied ? "checkmark" : "doc.on.doc")
+                    }
+                    .disabled(topic.isEmpty)
+                    Link("Get NTF-AI", destination: Settings.pushAppStoreURL)
                 } header: {
                     Text("Instant push")
                 } footer: {
-                    Text("The poller pushes each new match through ntfy within minutes. Use the topic from the repo's NTFY_TOPIC secret.")
+                    Text("The poller pushes each new match to NTF-AI (ntf-ai.app) within minutes. Enter the topic from the repo's NTFY_TOPIC secret, tap Subscribe in NTF-AI and confirm. If Safari opens instead, copy the topic and add it in NTF-AI with + and server ntf-ai.app. Run the test-push workflow on GitHub to check.")
                 }
 
                 Section {
